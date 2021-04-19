@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import React from 'react';
 import { Welcome } from './src/pages/Welcome';
+
 
 export default function App() {
   return (
