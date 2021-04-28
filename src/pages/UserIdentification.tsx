@@ -1,15 +1,18 @@
-import React from 'react';
-import { useState } from 'react';
-import { SafeAreaView, StyleSheet, View, Text, TextInput, KeyboardAvoidingView, Platform } from 'react-native'
+import { useNavigation } from '@react-navigation/core';
+import React, { useState } from 'react';
+import { KeyboardAvoidingView, Platform, SafeAreaView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+
 
 export function UserIdentification() {
 
   const [isFocused, setIsFocused] = useState(false)
   const [isFilled, setIsFilled] = useState(false)
   const [name, setName] = useState<string>();
+
+  const navigation = useNavigation();
 
   function handleInputBlur() {
     setIsFocused(false)
@@ -24,6 +27,11 @@ export function UserIdentification() {
     // caso ele nao te conteudo vai ser falso, caso ele tenha conteudo vai ser verdadeiro
     setIsFilled(!!value)
     setName(value)
+  }
+
+
+  function handleSubmit() {
+    navigation.navigate('Confirmation');
   }
 
   return (
@@ -55,7 +63,10 @@ export function UserIdentification() {
             />
             {/* o estilo de espaco e afins sempre fazer na pagina importada e nao no componente */}
             <View style={styles.footer}>
-              <Button />
+              <Button
+                title="Confirmar"
+                onPress={handleSubmit}
+              />
             </View>
           </View>
         </View>
