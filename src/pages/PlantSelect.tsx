@@ -30,6 +30,26 @@ export function PlantSelect() {
   //  Tipar o estado com a colecao que foi criado na interface
   const [enviroments, setEnviroments] = useState<EnviromentProps[]>([])
   const [plants, setPlants] = useState<PlantProps[]>([])
+  const [filterdePlants, setFilteredPlants] = useState<PlantProps[]>([])
+  const [enviromentSelected, setEnviromentSelected] = useState('all');
+
+  function handleEnviromentSelected(environment: string) {
+    setEnviromentSelected(environment);
+
+    // se tiver em todos o botao entao enviar todos sem filtros
+    if (environment === 'all')
+      return setFilteredPlants(plants);
+    
+    // agora se apertar algum botao que nao seja filtrado, entao retorne as plantas filtradas 
+    const filtered = plants.filter(plant =>
+      // As plantas filtradas atraves dos ambientes 
+        plant.environments.includes(environment)
+    )
+    // e seta os dados filtrados para o estado auxiliar
+    setFilteredPlants(filtered)
+    
+
+  }
 
   useEffect(() => {
     async function fetchEviroment() {
@@ -78,7 +98,11 @@ export function PlantSelect() {
         <FlatList
           data={enviroments}
           renderItem={({ item }) => (
-            <EnviromentButton title={item.title} />
+            <EnviromentButton
+              title={item.title}
+              active={item.key === enviromentSelected}
+              onPress={() => handleEnviromentSelected(item.key)}
+            />
 
           )}
           horizontal
@@ -89,7 +113,7 @@ export function PlantSelect() {
 
       <View style={styles.plants}>
         <FlatList
-          data={plants}
+          data={filterdePlants}
           renderItem={({ item }) => (
             <PlantCardPrimary data={item} />
           )}
@@ -97,8 +121,6 @@ export function PlantSelect() {
           numColumns={2}
 
         />
-
-
       </View>
 
     </View>
