@@ -7,9 +7,11 @@
   "plants_environments": [
     {"key": "living_room", "title": "Sala"},
     {"key": "bedroom", "title": "Quarto"},
-    {"key": "kitchen", "title": "Cozinha"},
+    {"key": "yard", "title": "Quintal"},
     {"key": "bathroom", "title": "Banheiro"},
-    {"key": "yard", "title": "Quintal"}
+    {"key": "kitchen", "title": "Cozinha"}
+    
+    
   ],
 
   "plants": [
