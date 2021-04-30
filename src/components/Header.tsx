@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import colors from '../styles/colors';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper'
-import userImg from './../assets/johnbrow.jpeg';
+import userImg from '../assets/johnbrow.jpeg'; 
 import fonts from '../styles/fonts';
 
 export function Header() {
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
     marginTop: getStatusBarHeight(),
-    padding: 20
   },
   image: {
     width: 70,
