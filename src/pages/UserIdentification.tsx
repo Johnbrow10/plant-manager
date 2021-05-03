@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/core';
 import React, { useState } from 'react';
-import { KeyboardAvoidingView, TouchableWithoutFeedback, Platform, SafeAreaView, StyleSheet, Text, TextInput, View, Keyboard } from 'react-native';
+import { KeyboardAvoidingView, TouchableWithoutFeedback, Platform, SafeAreaView, StyleSheet, Text, TextInput, View, Keyboard, Alert } from 'react-native';
 import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
@@ -31,6 +31,10 @@ export function UserIdentification() {
 
 
   function handleSubmit() {
+    if (!name)
+      return Alert.alert('Me diz como chamar você 😢')
+
+
     navigation.navigate('Confirmation');
   }
 
