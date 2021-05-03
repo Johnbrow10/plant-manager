@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/core';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
@@ -37,7 +38,9 @@ export function PlantSelect() {
 
   const [page, setPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
-  
+
+  const navigation = useNavigation();
+
   function handleEnviromentSelected(environment: string) {
     setEnviromentSelected(environment);
 
@@ -82,6 +85,11 @@ export function PlantSelect() {
     setLoadingMore(true)
     setPage(oldValue => oldValue + 1)
     fetchPlants();
+  }
+
+  //  funcao para passar o id e os dados da planta
+  function handlePlantSelect(plant: PlantProps) {
+    navigation.navigate('PlantSave', { plant });
   }
 
   useEffect(() => {
@@ -144,7 +152,10 @@ export function PlantSelect() {
           data={filterdPlants}
           keyExtractor={(item) => String(item.id)}
           renderItem={({ item }) => (
-            <PlantCardPrimary data={item} />
+            <PlantCardPrimary
+              data={item}
+              onPress={() => handlePlantSelect(item)}
+            />
           )}
           showsVerticalScrollIndicator={false}
           numColumns={2}
