@@ -42,7 +42,22 @@ export async function savePlant(plant: PlantProps): Promise<void> {
       JSON.stringify({
         ...newPlant,
         ...oldPlants,
-      }));
+      })
+    );
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export async function loadPlant(): Promise<StoragePlantProps> {
+  try {
+    const data = await AsyncStorage.getItem("@plantmanager:plants");
+    // plants vai retornar data se tiver dados na variavel um jsonParse com a tipagem de StoragePlantProps
+    // caso estiver vazio retorna um objeto Vazio no lugar
+    const plants = data ? (JSON.parse(data) as StoragePlantProps) : {};
+
+    return plants;
+
   } catch (error) {
     throw new Error(error);
   }
