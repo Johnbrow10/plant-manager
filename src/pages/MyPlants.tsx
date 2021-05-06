@@ -1,12 +1,77 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, Image, FlatList } from 'react-native';
 import { Header } from '../components/Header';
 import colors from '../styles/colors';
+import waterDrop from '../assets/waterdrop.png';
+import { PlantProps, loadPlant } from '../libs/storage';
+import { useEffect } from 'react';
+import { formatDistance } from 'date-fns';
+import { pt } from 'date-fns/locale';
 
 export function MyPlants() {
+  const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [nextWaterd, setNextWaterd] = useState<string>()
+
+  useEffect(() => {
+    async function loadStorageData() {
+      // carregar as plantas 
+      const plantsStoraged = await loadPlant()
+
+      // calcula a distancia de uma data para outra
+      const nextTime = formatDistance(
+        new Date(plantsStoraged[0].dateTimeNotifcation).getTime(),
+        new Date().getTime(),
+        { locale: pt }
+      );
+
+      // funcao para alertar o usuario a regar a proxima vez a planta
+      setNextWaterd(
+        `Não esqueça de regar a ${plantsStoraged[0].name} à ${nextTime} horas.`
+      );
+
+      setMyPlants(plantsStoraged);
+      setLoading(false)
+
+    };
+
+    loadStorageData();
+  }, [])
+
+
   return (
     <View style={styles.container}>
       <Header />
+
+      <View style={styles.spotlight}>
+        <Image
+          source={waterDrop}
+          style={styles.spotlightImage}
+        />
+
+        <Text style={styles.spotlightText} >
+          {nextWaterd}
+        </Text>
+      </View>
+      <View style={styles.plants}>
+        <Text style={styles.plantsTitle}>
+          Próximas regadas
+        </Text>
+
+        <FlatList
+          data={myPlants}
+          keyExtractor={(item) => String(item.id)}
+          renderItem={({ item }) => (
+            <Text >Elemento</Text>
+          )}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flex: 1 }}
+        />
+
+
+
+      </View>
+
     </View>
   )
 
@@ -20,5 +85,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingTop: 50,
     backgroundColor: colors.background
+  },
+  spotlight: {
+    backgroundColor: colors.blue_light,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    height: 110,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  spotlightImage: {
+
+  },
+  spotlightText: {
+
+  },
+  plants: {
+
+  },
+  plantsTitle: {
+
   }
+
 })
