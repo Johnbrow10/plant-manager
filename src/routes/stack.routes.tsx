@@ -3,6 +3,7 @@ import React from 'react';
 import { Confirmation } from '../pages/Confirmation';
 import { PlantSave } from '../pages/PlantSave';
 import { PlantSelect } from '../pages/PlantSelect';
+import { MyPlants } from '../pages/MyPlants';
 import { UserIdentification } from '../pages/UserIdentification';
 import { Welcome } from '../pages/Welcome';
 import colors from '../styles/colors';
@@ -43,6 +44,11 @@ const AppRoutes: React.FC = () => (
     <stackRoutes.Screen
       name="PlantSave"
       component={PlantSave}
+
+    />
+    <stackRoutes.Screen
+      name="MyPlants"
+      component={MyPlants}
 
     />
 

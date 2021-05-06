@@ -73,7 +73,8 @@ export async function loadPlant(): Promise<PlantProps[]> {
             new Date(a.dateTimeNotifcation).getTime() / 1000 -
               Math.floor(new Date(b.dateTimeNotifcation).getTime() / 1000)
           )
-        // ja esse sort va trazer dois campos que terao o A e b para capturar a primeira hora e depois a segunda hora e vai fazer menos a maior hora pela segunda
+        // ja esse sort va trazer dois campos que terao o A e b para capturar a primeira hora 
+        // e depois a segunda hora e vai fazer menos a maior hora pela segunda
       );
     return plantsSorted;
   
