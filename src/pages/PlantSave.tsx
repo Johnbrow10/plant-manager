@@ -19,7 +19,8 @@ import fonts from '../styles/fonts';
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { isBefore } from 'date-fns/esm';
 import { format } from 'date-fns';
-import { PlantProps } from '../libs/storage';
+import { PlantProps, savePlant } from '../libs/storage';
+import { useNavigation } from '@react-navigation/native';
 
 
 interface Params {
@@ -33,6 +34,7 @@ export function PlantSave() {
 
   const route = useRoute();
   const { plant } = route.params as Params;
+  const navigation = useNavigation();
 
   function handleChangeTime(event: Event, dateTime: Date | undefined) {
     if (Platform.OS === 'android') {
@@ -51,6 +53,26 @@ export function PlantSave() {
 
   function handleOpenDateTimeAndroid() {
     setShowDatePicker(oldState => !oldState);
+  }
+
+  async function handleSave() {
+    try {
+      await savePlant({
+        ...plant,
+        dateTimeNotifcation: selectedDateTime
+      });
+
+      navigation.navigate('Confirmation', {
+        title: 'Tudo Certo',
+        subtitle: 'Fique tranquilo que sempre vamos lembrar vocẽ de cuidar da sua plantinha com muito cuidado.',
+        ButtonTitle: 'Muito Obrigado :D',
+        icon: 'hug',
+        nextScreen: 'MyPlants'
+      });
+
+    } catch (error) {
+      Alert.alert('Não Foi possivel salvar. 😢')
+    }
   }
 
   return (
@@ -109,7 +131,7 @@ export function PlantSave() {
 
         <Button
           title="Cadastrar planta"
-          onPress={() => { }}
+          onPress={handleSave}
         />
 
       </View>
