@@ -13,10 +13,11 @@ export interface PlantProps {
     times: number;
     repeat_every: string;
   };
+  hour: string;
   dateTimeNotifcation: Date;
 }
 
-interface StoragePlantProps {
+export interface StoragePlantProps {
   [id: string]: {
     data: PlantProps;
   };
@@ -73,12 +74,22 @@ export async function loadPlant(): Promise<PlantProps[]> {
             new Date(a.dateTimeNotifcation).getTime() / 1000 -
               Math.floor(new Date(b.dateTimeNotifcation).getTime() / 1000)
           )
-        // ja esse sort va trazer dois campos que terao o A e b para capturar a primeira hora 
+        // ja esse sort va trazer dois campos que terao o A e b para capturar a primeira hora
         // e depois a segunda hora e vai fazer menos a maior hora pela segunda
       );
     return plantsSorted;
-  
   } catch (error) {
     throw new Error(error);
   }
+}
+
+export async function removePlant(id: string): Promise<void> {
+  // vai capturar o id atraves da exportação que ta no storage
+  const data = await AsyncStorage.getItem("@plantmanager:plants");
+  const plants = data ? (JSON.parse(data) as StoragePlantProps) : {};
+
+  //  e fazum delete da coleção com o id capturado
+  delete plants[id];
+
+  await AsyncStorage.setItem("@plantmanager:plants", JSON.stringify(plants));
 }
