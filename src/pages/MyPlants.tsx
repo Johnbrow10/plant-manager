@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Image, FlatList, Alert } from 'react-native';
+import { StyleSheet, View, Text, Image, FlatList, Alert, ScrollView } from 'react-native';
 import { Header } from '../components/Header';
 import colors from '../styles/colors';
 import waterDrop from '../assets/waterdrop.png';
@@ -102,9 +102,11 @@ export function MyPlants() {
             />
           )}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ flex: 1 }}
+          
         />
+
       </View>
+
     </View>
   )
 
